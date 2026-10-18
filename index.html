@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🇫🇷 Monitor Fonds d'urgence Émeutes 2023 — v2.0</title>
+<title>🇫🇷 Monitor Fonds d'urgence Émeutes 2023 — v2.1</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
@@ -120,9 +120,8 @@ body{font-family:var(--font-sans);background:var(--bg-app);color:var(--text);
 .spin{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--blue-eu);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 14px;}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* Carte Leaflet */
-#mapContainer{flex:1;min-height:0;position:relative;padding:14px;}
-#map{width:100%;height:100%;border-radius:6px;border:1px solid var(--border);}
+#mapContainer{flex:1;min-height:0;position:relative;padding:14px;display:none;flex-direction:column;}
+#map{width:100%;height:100%;border-radius:6px;border:1px solid var(--border);min-height:400px;}
 .map-side-panel{position:absolute;top:28px;right:28px;width:300px;max-height:calc(100% - 56px);background:var(--bg-panel);border:1px solid var(--border);border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.15);overflow-y:auto;z-index:500;padding:14px;}
 .map-side-panel h4{font-size:11px;text-transform:uppercase;color:var(--blue-eu);letter-spacing:.6px;font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
 .dept-list-item{display:flex;justify-content:space-between;align-items:center;padding:6px 4px;font-size:11px;font-family:var(--font-mono);border-bottom:1px solid var(--grey-100);cursor:pointer;transition:all .15s;border-radius:3px;}
@@ -135,12 +134,10 @@ body{font-family:var(--font-sans);background:var(--bg-app);color:var(--text);
 .leaflet-popup-content strong{color:var(--blue-eu);}
 .leaflet-popup-content .pop-montant{font-family:var(--font-mono);font-weight:700;color:var(--green-bourgeon);font-size:14px;display:block;margin:4px 0;}
 
-/* Marqueurs personnalisés */
 .custom-marker{background:transparent;border:none;}
 .marker-pin{width:22px;height:22px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;}
 .marker-pin span{transform:rotate(45deg);color:#fff;font-size:10px;font-weight:800;font-family:var(--font-mono);}
 
-/* Catégories */
 .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;padding:4px;}
 .cat-card{background:var(--bg-panel);border:1px solid var(--border);border-left:4px solid var(--gold-eu);border-radius:4px;padding:12px 14px;cursor:pointer;transition:all .15s;animation:fadeInUp .35s ease-out;}
 .cat-card:hover{border-color:var(--blue-eu);box-shadow:0 4px 12px rgba(0,51,153,.1);transform:translateY(-2px);}
@@ -154,7 +151,6 @@ body{font-family:var(--font-sans);background:var(--bg-app);color:var(--text);
 .cat-share-bar{display:flex;height:6px;border-radius:3px;overflow:hidden;background:var(--grey-100);margin-top:8px;}
 .cat-share-seg{height:100%;background:var(--blue-eu);transition:width 1s cubic-bezier(.4,0,.2,1);}
 
-/* Analytics */
 .bar-row{display:grid;grid-template-columns:140px 1fr 110px;align-items:center;gap:8px;margin-bottom:8px;font-size:11px;}
 .bar-row .name{color:var(--grey-700);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--font-mono);font-weight:600;}
 .bar-track{background:var(--grey-100);border-radius:3px;height:18px;overflow:hidden;position:relative;}
@@ -169,7 +165,6 @@ body{font-family:var(--font-sans);background:var(--bg-app);color:var(--text);
 .analytics-panel .panel-head::before{content:'';width:4px;height:12px;background:var(--gold-eu);}
 .analytics-panel .panel-body{padding:14px;}
 
-/* Pagination */
 .pagination-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:12px 14px;background:var(--bg-panel);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
 .pagination-info{font-family:var(--font-mono);font-size:11px;color:var(--grey-700);font-weight:600;}
 .pagination-info strong{color:var(--blue-eu);font-size:13px}
@@ -185,7 +180,6 @@ body{font-family:var(--font-sans);background:var(--bg-app);color:var(--text);
 .export-btn:hover{border-color:var(--blue-eu);color:var(--blue-eu);background:var(--blue-eu-soft);}
 .export-btn:disabled{opacity:.4;cursor:not-allowed}
 
-/* Right panel */
 .right{background:var(--bg-panel);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;min-height:0;}
 .rs-head{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--grey-50);font-size:12px;font-weight:700;color:var(--blue-eu);letter-spacing:.5px;text-transform:uppercase;display:flex;align-items:center;gap:8px;}
 .rs-head::before{content:'';width:4px;height:14px;background:var(--gold-eu);}
@@ -201,12 +195,6 @@ body{font-family:var(--font-sans);background:var(--bg-app);color:var(--text);
 .intel-row .v.green{color:var(--green-bourgeon)}
 .intel-row .v.amber{color:#8a5e00}
 .intel-row .v.red{color:var(--red-marianne)}
-
-.drop-zone{border:2px dashed var(--border);border-radius:8px;padding:24px;text-align:center;background:var(--grey-50);transition:all .2s;cursor:pointer;margin:12px;}
-.drop-zone:hover,.drop-zone.dragover{border-color:var(--blue-eu);background:var(--blue-eu-soft);}
-.drop-zone .icon{font-size:32px;margin-bottom:8px;}
-.drop-zone .title{font-weight:700;color:var(--blue-eu);margin-bottom:4px;}
-.drop-zone .sub{font-size:11px;color:var(--grey-500);}
 
 .toast{position:fixed;bottom:24px;right:24px;background:var(--grey-900);color:#fff;padding:12px 20px;border-radius:6px;font-size:13px;font-weight:600;z-index:1000;box-shadow:0 8px 24px rgba(0,0,0,.2);animation:slideInRight .3s ease-out;display:flex;align-items:center;gap:8px;max-width:400px;}
 .toast.success{background:var(--green-bourgeon)}
@@ -236,7 +224,7 @@ body{font-family:var(--font-sans);background:var(--bg-app);color:var(--text);
   <div class="brand">
     <span class="dot" id="statusDot"></span>
     MONITOR FONDS D'URGENCE 2023
-    <span class="sub">/ v2.0</span>
+    <span class="sub">/ v2.1</span>
   </div>
   <div class="topbar-right">
     <div class="topbar-stat"><span>SOURCE</span><span class="val" id="tbMode">—</span></div>
@@ -307,7 +295,7 @@ body{font-family:var(--font-sans);background:var(--bg-app);color:var(--text);
       </div>
     </div>
 
-    <div id="mapContainer" style="display:none">
+    <div id="mapContainer">
       <div id="map"></div>
       <div class="map-side-panel">
         <h4>🏆 Top départements</h4>
@@ -356,10 +344,8 @@ body{font-family:var(--font-sans);background:var(--bg-app);color:var(--text);
 
 <script>
 /* =========================================================
-   MONITOR FONDS D'URGENCE 2023 — v2.0
-   Source : fonds-d-urgence-...json (local)
-   Champs : num, beneficiaire, c_insee, dpt, operations,
-            montant_de_l_avance, centroid{lon,lat}, departement
+   MONITOR FONDS D'URGENCE 2023 — v2.1
+   Fond de carte : OpenStreetMap standard (sans clé API)
    ========================================================= */
 
 const JSON_FILE = 'fonds-d-urgence-pour-les-communes-impactees-par-les-emeutes-de-l-ete-2023.json';
@@ -405,9 +391,6 @@ function showHelpBanner(message, type = 'warn'){
   b.innerHTML = message;
 }
 
-/* =========================================================
-   THÈME
-   ========================================================= */
 function applyTheme(){
   document.documentElement.setAttribute('data-theme', state.theme);
   const btn = document.getElementById('themeToggle');
@@ -417,20 +400,13 @@ function toggleTheme(){
   state.theme = state.theme === 'dark' ? 'light' : 'dark';
   localStorage.setItem('fu-theme', state.theme);
   applyTheme();
-  if (state.map){
-    // recharger la carte pour appliquer le thème
-    if (document.querySelector('.mode-tab.active')?.dataset.view === 'map'){
-      document.getElementById('mapContainer').style.display = 'none';
-      renderResults();
-    }
+  if (document.querySelector('.mode-tab.active')?.dataset.view === 'map'){
+    document.getElementById('mapContainer').style.display = 'none';
+    renderResults();
   }
 }
 
-/* =========================================================
-   NORMALISATION
-   ========================================================= */
 function normalizeCommune(raw){
-  // Champs réels confirmés
   const commune = raw.beneficiaire || raw.commune || '—';
   const insee = raw.c_insee || raw.insee || raw.code_insee || '—';
   const dpt = raw.dpt != null ? String(Math.round(raw.dpt)).padStart(2,'0') : '—';
@@ -453,9 +429,6 @@ function normalizeCommune(raw){
   };
 }
 
-/* =========================================================
-   CHARGEMENT DU JSON LOCAL
-   ========================================================= */
 async function loadData(){
   const btn = document.getElementById('reloadBtn');
   btn.disabled = true; btn.textContent = '⏳…';
@@ -571,9 +544,6 @@ function renderSidebar(){
   });
 }
 
-/* =========================================================
-   FILTRES
-   ========================================================= */
 function applyFilters(page = 1){
   const q = (document.getElementById('queryInput')?.value || '').toLowerCase().trim();
   const dept = document.getElementById('deptSelect')?.value || '';
@@ -643,9 +613,6 @@ function renderKPIs(data){
   strip.innerHTML = kpis.map(k => `<div class="kpi ${k.cls}"><div class="label">${k.label}</div><div class="value">${k.value}</div><div class="sub">${k.sub}</div></div>`).join('');
 }
 
-/* =========================================================
-   RENDU PRINCIPAL
-   ========================================================= */
 function renderResults(){
   const activeView = document.querySelector('.mode-tab.active')?.dataset.view || 'results';
   const area = document.getElementById('resultsArea');
@@ -707,9 +674,6 @@ function renderResults(){
   });
 }
 
-/* =========================================================
-   VUE DÉPARTEMENTS
-   ========================================================= */
 function renderDepts(){
   const area = document.getElementById('resultsArea');
   const data = state.filtered.length ? state.filtered : state.all;
@@ -743,26 +707,22 @@ function renderDepts(){
   });
 }
 
-/* =========================================================
-   CARTE LEAFLET
-   ========================================================= */
 function renderMap(){
   const data = state.filtered.length ? state.filtered : state.all;
   if (!state.map){
     state.map = L.map('map', { zoomControl: true, scrollWheelZoom: true }).setView([48.85, 2.35], 9);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap &copy; CARTO',
-      maxZoom: 18
+    // ✅ OpenStreetMap standard : gratuit, sans clé API
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 19
     }).addTo(state.map);
   }
-  // Nettoyer les marqueurs
   state.markers.forEach(m => state.map.removeLayer(m));
   state.markers = [];
 
   const maxMontant = Math.max(...data.map(c=>c.montant), 1);
   data.forEach(c => {
     if (c.lat == null || c.lon == null) return;
-    const intensity = 0.35 + 0.65 * (c.montant / maxMontant);
     const color = c.montant >= 500000 ? '#18753c' : c.montant >= 100000 ? '#003399' : c.montant >= 20000 ? '#ffb800' : '#E1000F';
     const size = 18 + Math.round(14 * (c.montant / maxMontant));
     const html = `<div class="marker-pin" style="background:${color};width:${size}px;height:${size}px;font-size:${Math.max(8, size/2.5)}px"><span>${c.commune.slice(0,2).toUpperCase()}</span></div>`;
@@ -782,7 +742,6 @@ function renderMap(){
     state.markers.push(marker);
   });
 
-  // Panneau top départements
   const byDept = {};
   data.forEach(c => { if (!byDept[c.dpt]) byDept[c.dpt] = { count: 0, montant: 0 }; byDept[c.dpt].count++; byDept[c.dpt].montant += c.montant; });
   const top = Object.entries(byDept).sort((a,b)=>b[1].montant-a[1].montant);
@@ -805,9 +764,6 @@ function renderMap(){
   setTimeout(() => state.map.invalidateSize(), 100);
 }
 
-/* =========================================================
-   VUE ANALYSES
-   ========================================================= */
 function renderAnalytics(){
   const area = document.getElementById('resultsArea');
   const data = state.filtered.length ? state.filtered : state.all;
@@ -832,9 +788,6 @@ function renderAnalytics(){
   requestAnimationFrame(() => area.querySelectorAll('.anim-bar').forEach(b => { b.style.width = b.dataset.w; }));
 }
 
-/* =========================================================
-   PAGINATION
-   ========================================================= */
 function updatePagination(){
   const bar = document.getElementById('paginationBar');
   const info = document.getElementById('paginationInfo');
@@ -852,9 +805,6 @@ function updatePagination(){
 
 const showResults = html => { const el = document.getElementById('resultsArea'); if (el) el.innerHTML = html; };
 
-/* =========================================================
-   ÉVÉNEMENTS
-   ========================================================= */
 document.getElementById('reloadBtn')?.addEventListener('click', loadData);
 document.getElementById('queryInput')?.addEventListener('input', () => { clearTimeout(window._deb); window._deb = setTimeout(() => { if (state.all.length) applyFilters(1); }, 250); });
 document.getElementById('deptSelect')?.addEventListener('change', () => { if (state.all.length) applyFilters(1); });
@@ -913,9 +863,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-/* =========================================================
-   INIT
-   ========================================================= */
 (async () => {
   applyTheme();
   await loadData();
